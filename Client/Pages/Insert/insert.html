@@ -375,10 +375,27 @@ function getCookie(name) {
                         var description = notice_arr[i].data.full_desc;
                         var brief_desc = description.substr(0, 300);
 
-                        $notices.append('<li data-id="'+notice_arr[i].data.notice_id+'"><img id ="img_pin" src="../../pin.png"></img><h2>' + notice_arr[i].data.title + '<br></h2><div class="imgArea"></div><p>' + description + '</p><br><p>Category : ' + notice_arr[i].category + '</p><p>Posted Date : ' + notice_arr[i].data.creation_date + '</p><div class="icon_div" data-id=' + i + '><a class="a_edit_style file-chooser"><input type="file" class="uploadImg"/><i class="glyphicon glyphicon-picture i_style" aria-hidden="true"></i></a><a class="open-Category-Edit  a_edit_style" data-toggle="modal" data-target="#myCategoryModal"><i class="fas fa-tag i_style"></i></a><a class="open-Dialog-Edit a_edit_style" data-toggle="modal" data-target="#myModal"><i class="far fa-edit i_style"></i></a><a class="delete_notice a_edit_style"><i class="fas fa-trash-alt i_style"></i></a></div></li>');
+                        var noticeImages="";
+                        for(let j=0;j<notice_arr[i].data.imgUrl.length;j++){
+                          if(notice_arr[i].data.imgUrl.length%2==0){
+                            noticeImages+='<div data-id='+notice_arr[i].data.imgUrl[j].image_id+' class="img-wrapper" style="opacity: 1;width: 50%;padding: 2px;max-height:200px;display: inline-block;"><img src='+notice_arr[i].data.imgUrl[j].url+'></div>';
+                          }else if(j==notice_arr[i].data.imgUrl.length-1){
+                            noticeImages+='<div data-id='+notice_arr[i].data.imgUrl[j].image_id+' class="img-wrapper" style="opacity: 1;width: 100%;padding: 2px;max-height:200px;display: inline-block;"><img src='+notice_arr[i].data.imgUrl[j].url+'></div>';
+                          }else{
+                            noticeImages+='<div data-id='+notice_arr[i].data.imgUrl[j].image_id+' class="img-wrapper" style="opacity: 1;width: 50%;padding: 2px;max-height:200px;display: inline-block;"><img src='+notice_arr[i].data.imgUrl[j].url+'></div>';
+                          }
+                          
+
+                        }
+
+                        $notices.append('<li data-id="'+notice_arr[i].data.notice_id+'"><img id ="img_pin" src="../../pin.png"></img><h2>' + notice_arr[i].data.title + '<br></h2><div class="imgArea">'+noticeImages+'</div><p>' + description + '</p><br><p>Category : ' + notice_arr[i].category + '</p><p>Posted Date : ' + notice_arr[i].data.creation_date + '</p><div class="icon_div" data-id=' + i + '><a class="a_edit_style file-chooser"><input type="file" class="uploadImg"/><i class="glyphicon glyphicon-picture i_style" aria-hidden="true"></i></a><a class="open-Category-Edit  a_edit_style" data-toggle="modal" data-target="#myCategoryModal"><i class="fas fa-tag i_style"></i></a><a class="open-Dialog-Edit a_edit_style" data-toggle="modal" data-target="#myModal"><i class="far fa-edit i_style"></i></a><a class="delete_notice a_edit_style"><i class="fas fa-trash-alt i_style"></i></a></div></li>');
                     }
+                    $('.img-wrapper').append('<button><i class="fas fa-trash-alt i_style"></i></button>');
                 }
+
             });
+
+
 
             $("#icon-tray .fa-check-circle").click(function() {
                 var checked;
@@ -601,15 +618,22 @@ function getCookie(name) {
       if(this.files[0].type=="image/jpeg" || this.files[0].type =="image/png" ){
         var reader = new FileReader();
         reader.onload = function(e) { 
-          let count = superParent.find('.imgArea img').length + 1;
-          let imgWidth = superParent.find('.imgArea').width()/count;
+          let count = superParent.find('.imgArea .img-wrapper').length + 1;
+          //let imgWidth = superParent.find('.imgArea').width()/count;
           console.log(count,"width")
           superParent.find('.imgArea').append('<div class="img-wrapper" style="opacity:0.3"><img src="'+e.target.result+'"/></div>');
-          superParent.find('.imgArea .img-wrapper').css({'width':imgWidth,"padding":"0 2px","max-height":"200px","display":"inline-block"});
+          if(count%2==0){            
+          superParent.find('.imgArea .img-wrapper').css({'width':"50%","padding":"2px","max-height":"200px","display":"inline-block"});
+          }else{
+
+          superParent.find('.imgArea .img-wrapper').css({'width':"50%","padding":"2px","max-height":"200px","display":"inline-block"});
+          superParent.find('.img-wrapper:last-child').css({'width':"100%","padding":"2px","max-height":"200px","display":"inline-block"});
+          }
           var currentImg = $('.imgArea .img-wrapper').last();
           axios.post('http://localhost:8085/upload/noticeImg',fd).then((res)=>{
             console.log(res);
-            currentImg.last('.img-wrapper').css({"opacity":"1"})
+            currentImg.last('.img-wrapper').css({"opacity":"1"});
+            window.location.reload();
           }).catch((error)=>{console.log(error)});
         }.bind(this)
 
@@ -619,6 +643,14 @@ function getCookie(name) {
       }
     })
 
+ //deleting image 
+
+ $(document).on('click','.img-wrapper button i',function(){
+  console.log('delete id',$(this).parent().parent().attr('data-id'));
+  axios.post('http://localhost:8085/deleteImage',{id:$(this).parent().parent().attr('data-id')})
+  .then((res)=>{console.log(res);window.location.reload();})
+  .catch((error)=>{console.log(error)});
+ });
 
 
 </script>
@@ -1146,6 +1178,41 @@ circle:hover {
 .img-wrapper img {
     width: 100%;
     max-height: 200px;
+}
+.img-wrapper {
+    opacity: 1;
+    padding: 2px;
+    max-height: 200px;
+    display: inline-block;
+    position: relative;
+}
+.img-wrapper button {
+    position: absolute; 
+    bottom: 0;
+    right: 0;
+    visibility: hidden;
+    z-index: 10;
+    background: none;
+    border: none;
+    color: #fff;
+}
+
+.img-wrapper:hover button {
+    visibility: visible;
+}
+.img-wrapper:hover:after {
+    content:  '';
+    position:  absolute;
+    background: rgba(0,0,0,0.5);
+    top: 0;
+    width:  100%;
+    height: 100%;
+    left: 0;
+    z-index: 9;
+}
+
+.img-wrapper button i {
+    margin: 0;
 }
 </style>
 
