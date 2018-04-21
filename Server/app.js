@@ -104,7 +104,8 @@ app.post("/filter",function(req,res) {
 				title:'',
 				creation_date:'',
 				updation_date:'',
-				full_desc:''
+				full_desc:'',
+				imgUrl:[]
 
 				}
 				}
@@ -145,8 +146,33 @@ app.post("/filter",function(req,res) {
 				arr.push(obj);
 			
 				}
+				var imagePromises =[];
 
-			res.send(arr);
+				for(let k = 0;k<arr.length;k++){
+					imagePromises[k] = new Promise(function(resolve,reject){
+						var sql = "Select url,image_id from image where ref_id="+arr[k].data.notice_id;
+						connection.query(sql,function(error,rows,feilds){
+							if(error){
+								console.log(error);
+								reject(error);
+							}else{
+								console.log("image url",rows)
+								for(let m=0;m<rows.length;m++){	
+									let obj = {
+										image_id:rows[m].image_id,
+										url:rows[m].url
+									}								
+									arr[k].data.imgUrl.push(obj);
+								}
+								resolve('success');
+							}
+						})
+					})
+					
+				}
+
+				Promise.all(imagePromises).then((result)=>{console.log(result);res.send(arr)}).catch((error)=>{console.log("Image appending",error);res.send(error)});
+
 	}).catch(function(error){
 	console.log("error",error)}
 	);
@@ -208,7 +234,8 @@ app.get("/getNotices",function(req,res) {
 				title:'',
 				creation_date:'',
 				updation_date:'',
-				full_desc:''
+				full_desc:'',
+				imgUrl:[]
 
 				}
 				}
@@ -248,9 +275,33 @@ app.get("/getNotices",function(req,res) {
 				arr.push(obj);
 			
 				}
+				var imagePromises =[];
 
-				console.log("Respond data",arr);
-			res.send(arr);
+				for(let k = 0;k<arr.length;k++){
+					imagePromises[k] = new Promise(function(resolve,reject){
+						var sql = "Select url,image_id from image where ref_id="+arr[k].data.notice_id;
+						connection.query(sql,function(error,rows,feilds){
+							if(error){
+								console.log(error);
+								reject(error);
+							}else{
+								console.log("image url",rows)
+								for(let m=0;m<rows.length;m++){	
+									let obj = {
+										image_id:rows[m].image_id,
+										url:rows[m].url
+									}								
+									arr[k].data.imgUrl.push(obj);
+								}
+								resolve('success');
+							}
+						})
+					})
+					
+				}
+
+				Promise.all(imagePromises).then((result)=>{console.log(result);res.send(arr)}).catch((error)=>{console.log("Image appending",error);res.send(error)});
+
 		}
 
 	});

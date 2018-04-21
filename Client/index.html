@@ -69,9 +69,20 @@
             var description = notice_arr[i].data.full_desc;
             var brief_desc = description.substr(0, 400);
 
+            var noticeImages="";
+            for(let j=0;j<notice_arr[i].data.imgUrl.length;j++){
+              if(notice_arr[i].data.imgUrl.length%2==0){
+                noticeImages+='<div data-id='+notice_arr[i].data.imgUrl[j].image_id+' class="img-wrapper" style="opacity: 1;width: 50%;padding: 2px;max-height:200px;display: inline-block;"><img src='+notice_arr[i].data.imgUrl[j].url+'></div>';
+              }else if(j==notice_arr[i].data.imgUrl.length-1){
+                noticeImages+='<div data-id='+notice_arr[i].data.imgUrl[j].image_id+' class="img-wrapper" style="opacity: 1;width: 100%;padding: 2px;max-height:200px;display: inline-block;"><img src='+notice_arr[i].data.imgUrl[j].url+'></div>';
+              }else{
+                noticeImages+='<div data-id='+notice_arr[i].data.imgUrl[j].image_id+' class="img-wrapper" style="opacity: 1;width: 50%;padding: 2px;max-height:200px;display: inline-block;"><img src='+notice_arr[i].data.imgUrl[j].url+'></div>';
+              }
+              
 
+            }
 
-            $notices.append('<li data-id=' + i + ' class="open-Dialog" data-toggle="modal" data-target="#myModal"><img id ="img_pin" src="pin.png"></img><h2>' + notice_arr[i].data.title + '<br></h2><p>' + brief_desc + '....</p><br><p>Category : ' + notice_arr[i].category + '</p><p>Posted Date : ' + notice_arr[i].data.creation_date + '</p></li>');
+            $notices.append('<li data-id=' + i + ' class="open-Dialog" data-toggle="modal" data-target="#myModal"><img id ="img_pin" src="pin.png"></img><h2>' + notice_arr[i].data.title + '<br></h2><div class="imgArea">'+noticeImages+'</div><p>' + brief_desc + '....</p><hr><p>Category : ' + notice_arr[i].category + '</p><p>Posted Date : ' + notice_arr[i].data.creation_date + '</p></li>');
         }
     }
 
@@ -133,7 +144,20 @@
 
                     var date = $.timeago(notice_arr[i].data.updation_date);
 
-                    $notices.append('<li data-id=' + i + ' class="open-Dialog" data-toggle="modal" data-target="#myModal"><img id ="img_pin" src="pin.png"></img><h2>' + notice_arr[i].data.title + '<br></h2><p>' + brief_desc + '....</p><br><p>Category : ' + notice_arr[i].category + '</p><p>' + date + '</p></li>');
+                    var noticeImages="";
+                    for(let j=0;j<notice_arr[i].data.imgUrl.length;j++){
+                      if(notice_arr[i].data.imgUrl.length%2==0){
+                        noticeImages+='<div data-id='+notice_arr[i].data.imgUrl[j].image_id+' class="img-wrapper" style="opacity: 1;width: 50%;padding: 2px;max-height:200px;display: inline-block;"><img src='+notice_arr[i].data.imgUrl[j].url+'></div>';
+                      }else if(j==notice_arr[i].data.imgUrl.length-1){
+                        noticeImages+='<div data-id='+notice_arr[i].data.imgUrl[j].image_id+' class="img-wrapper" style="opacity: 1;width: 100%;padding: 2px;max-height:200px;display: inline-block;"><img src='+notice_arr[i].data.imgUrl[j].url+'></div>';
+                      }else{
+                        noticeImages+='<div data-id='+notice_arr[i].data.imgUrl[j].image_id+' class="img-wrapper" style="opacity: 1;width: 50%;padding: 2px;max-height:200px;display: inline-block;"><img src='+notice_arr[i].data.imgUrl[j].url+'></div>';
+                      }
+                      
+
+                    }
+
+                    $notices.append('<li data-id=' + i + ' class="open-Dialog" data-toggle="modal" data-target="#myModal"><img id ="img_pin" src="pin.png"></img><h2>' + notice_arr[i].data.title + '<br></h2><div class="imgArea">'+noticeImages+'</div><p>' + brief_desc + '....</p><hr><p>Category : ' + notice_arr[i].category + '</p><p>' + date + '</p></li>');
                 }
             }
         });
@@ -192,7 +216,20 @@
                         var description = notice_arr[i].data.full_desc;
                         var brief_desc = description.substr(0, 300);
 
-                        $notices.append('<li data-id=' + i + ' class="open-Dialog" data-toggle="modal" data-target="#myModal"><img id ="img_pin" src="pin.png"></img><h2>' + notice_arr[i].data.title + '<br></h2><p>' + brief_desc + '....</p><br><p>Category : ' + notice_arr[i].category + '</p><p>Posted Date : ' + notice_arr[i].data.creation_date + '</p></li>');
+                        var noticeImages="";
+                        for(let j=0;j<notice_arr[i].data.imgUrl.length;j++){
+                              if(notice_arr[i].data.imgUrl.length%2==0){
+                                noticeImages+='<div data-id='+notice_arr[i].data.imgUrl[j].image_id+' class="img-wrapper" style="opacity: 1;width: 50%;padding: 2px;max-height:200px;display: inline-block;"><img src='+notice_arr[i].data.imgUrl[j].url+'></div>';
+                              }else if(j==notice_arr[i].data.imgUrl.length-1){
+                                noticeImages+='<div data-id='+notice_arr[i].data.imgUrl[j].image_id+' class="img-wrapper" style="opacity: 1;width: 100%;padding: 2px;max-height:200px;display: inline-block;"><img src='+notice_arr[i].data.imgUrl[j].url+'></div>';
+                              }else{
+                                noticeImages+='<div data-id='+notice_arr[i].data.imgUrl[j].image_id+' class="img-wrapper" style="opacity: 1;width: 50%;padding: 2px;max-height:200px;display: inline-block;"><img src='+notice_arr[i].data.imgUrl[j].url+'></div>';
+                              }
+                          
+
+                        }
+
+                        $notices.append('<li data-id=' + i + ' class="open-Dialog" data-toggle="modal" data-target="#myModal"><img id ="img_pin" src="pin.png"></img><h2>' + notice_arr[i].data.title + '<br></h2><div class="imgArea">'+noticeImages+'</div><p>' + brief_desc + '....</p><hr><p>Category : ' + notice_arr[i].category + '</p><p>Posted Date : ' + notice_arr[i].data.creation_date + '</p></li>');
                     }
                 })
                 .catch(function(error) {
@@ -379,7 +416,7 @@
         margin:  0;
         padding: 10px 15px;
         background: rgba(0,0,0,0.3);
-        margin-bottom: 15px;
+        margin-bottom: 0px;
     }
 
     ul#notices p {
@@ -465,7 +502,25 @@
     padding: -8px 40px;
     border-radius: 50%;
     }
+    .img-wrapper img {
+    width: 100%;
+    max-height: 200px;
+}
+.img-wrapper {
+    opacity: 1;
+    padding: 2px;
+    max-height: 200px;
+    display: inline-block;
+    position: relative;
+}
 
+.imgArea {
+    margin-bottom: 15px;
+}
+ul#notices hr {
+    border-color: rgba(0, 0, 0, 0.3);
+    border-width: 2px;
+}
 </style>
 
 <body>

@@ -388,7 +388,7 @@ function getCookie(name) {
 
                         }
 
-                        $notices.append('<li data-id="'+notice_arr[i].data.notice_id+'"><img id ="img_pin" src="../../pin.png"></img><h2>' + notice_arr[i].data.title + '<br></h2><div class="imgArea">'+noticeImages+'</div><p>' + description + '</p><br><p>Category : ' + notice_arr[i].category + '</p><p>Posted Date : ' + notice_arr[i].data.creation_date + '</p><div class="icon_div" data-id=' + i + '><a class="a_edit_style file-chooser"><input type="file" class="uploadImg"/><i class="glyphicon glyphicon-picture i_style" aria-hidden="true"></i></a><a class="open-Category-Edit  a_edit_style" data-toggle="modal" data-target="#myCategoryModal"><i class="fas fa-tag i_style"></i></a><a class="open-Dialog-Edit a_edit_style" data-toggle="modal" data-target="#myModal"><i class="far fa-edit i_style"></i></a><a class="delete_notice a_edit_style"><i class="fas fa-trash-alt i_style"></i></a></div></li>');
+                        $notices.append('<li data-id="'+notice_arr[i].data.notice_id+'"><img id ="img_pin" src="../../pin.png"></img><h2>' + notice_arr[i].data.title + '<br></h2><div class="imgArea">'+noticeImages+'</div><p>' + description + '</p><hr><p>Category : ' + notice_arr[i].category + '</p><p>Posted Date : ' + notice_arr[i].data.creation_date + '</p><div class="icon_div" data-id=' + i + '><a class="a_edit_style file-chooser"><input type="file" class="uploadImg"/><i class="glyphicon glyphicon-picture i_style" aria-hidden="true"></i></a><a class="open-Category-Edit  a_edit_style" data-toggle="modal" data-target="#myCategoryModal"><i class="fas fa-tag i_style"></i></a><a class="open-Dialog-Edit a_edit_style" data-toggle="modal" data-target="#myModal"><i class="far fa-edit i_style"></i></a><a class="delete_notice a_edit_style"><i class="fas fa-trash-alt i_style"></i></a></div></li>');
                     }
                     $('.img-wrapper').append('<button><i class="fas fa-trash-alt i_style"></i></button>');
                 }
@@ -680,13 +680,12 @@ body {
   }
 
 #img_pin {
-    top: 0px;
-    left: 80%;
+    top: 5px;
+    left: 85%;
     z-index: 1;
-
     position: absolute;
-    width: 50px;
-    height: 50px;
+    width: 35px;
+    height: 35px;
     display: inline-block;
 }
 
@@ -968,7 +967,9 @@ input.form-control{
 #text-input-div{
   height: auto;
 }
-
+.imgArea {
+    margin-bottom: 15px;
+}
 /*------------------- fake placeholder-------------------*/
 
 div[data-placeholder]:not(:focus):not([data-div-placeholder-content]):before {
@@ -1213,6 +1214,10 @@ circle:hover {
 
 .img-wrapper button i {
     margin: 0;
+}
+ul#notices hr {
+    border-color: rgba(0, 0, 0, 0.3);
+    border-width: 2px;
 }
 </style>
 
